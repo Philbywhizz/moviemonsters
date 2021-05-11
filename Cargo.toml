@@ -13,7 +13,7 @@ publish = false
 lto = "thin"
 
 [dependencies]
-console_engine = "1.5.1"
+bracket-lib = "0.8.1"
 legion = "0.4.0"
 ron = "0.6.4"
 serde = "1.0.125"
