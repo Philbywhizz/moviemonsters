@@ -1,12 +1,14 @@
 mod camera;
 mod components;
 mod map;
+mod map_builder;
 mod spawner;
 mod systems;
 mod prelude {
     pub use crate::camera::*;
     pub use crate::components::*;
     pub use crate::map::*;
+    pub use crate::map_builder::*;
     pub use crate::spawner::*;
     pub use crate::systems::*;
     pub use bracket_lib::prelude::*;
@@ -31,9 +33,11 @@ impl State {
     fn new() -> Self {
         let mut ecs = World::default();
         let mut resources = Resources::default();
-        let map = Map::new();
+        let mut rng = RandomNumberGenerator::new();
+        let map_builder = MapBuilder::new(&mut rng);
+
         // Insert the map of the city
-        resources.insert(map);
+        resources.insert(map_builder.map);
         resources.insert(Camera::new(Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2)));
 
         // spawn the monster in the middle of the map

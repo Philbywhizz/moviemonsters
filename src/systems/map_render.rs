@@ -16,6 +16,7 @@ pub fn map_render(#[resource] map: &Map, #[resource] camera: &Camera) {
                 let idx = map_idx(x, y);
                 let glyph = match map.tiles[idx] {
                     TileType::Ground => to_cp437('.'),
+                    TileType::Building => to_cp437('#'),
                 };
                 draw_batch.set(
                     pt - offset + viewport_offset,

@@ -8,6 +8,7 @@ const NUM_TILES: usize = (MAP_WIDTH * MAP_HEIGHT) as usize;
 #[derive(Copy, Clone, PartialEq)]
 pub enum TileType {
     Ground,
+    Building,
 }
 
 // Structure that will hold a map
