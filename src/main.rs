@@ -80,10 +80,10 @@ fn main() -> BError {
         .with_fps_cap(30.0)
         .with_dimensions(SCREEN_WIDTH, SCREEN_HEIGHT)
         .with_resource_path("resources/")
-        .with_font("terminal8x8.png", 8, 8)
-        .with_simple_console(SCREEN_WIDTH, SCREEN_HEIGHT, "terminal8x8.png") // Main screen
-        .with_simple_console_no_bg(SCREEN_WIDTH, SCREEN_HEIGHT, "terminal8x8.png") // Entities
-        .with_simple_console_no_bg(SCREEN_WIDTH, SCREEN_HEIGHT, "terminal8x8.png") // HUD
+        .with_font("md-curses-16x16.png", 16, 16)
+        .with_simple_console(SCREEN_WIDTH, SCREEN_HEIGHT, "md-curses-16x16.png") // Main screen
+        .with_simple_console_no_bg(SCREEN_WIDTH, SCREEN_HEIGHT, "md-curses-16x16.png") // Entities
+        .with_simple_console_no_bg(SCREEN_WIDTH, SCREEN_HEIGHT, "md-curses-16x16.png") // HUD
         .build()?;
 
     main_loop(context, State::new())

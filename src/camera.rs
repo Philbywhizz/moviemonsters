@@ -1,7 +1,9 @@
 use crate::prelude::*;
 
-pub const CAMERA_WIDTH: i32 = 50;
-pub const CAMERA_HEIGHT: i32 = 40;
+// The camera shows only part of the world map, defined by its size and look_at point
+
+pub const CAMERA_WIDTH: i32 = 57;
+pub const CAMERA_HEIGHT: i32 = 45;
 
 pub struct Camera {
     pub left_x: i32,
@@ -11,19 +13,19 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new(focus: Point) -> Self {
+    pub fn new(look_at: Point) -> Self {
         Self {
-            left_x: focus.x - CAMERA_WIDTH / 2,
-            right_x: focus.x + CAMERA_WIDTH / 2,
-            top_y: focus.y - CAMERA_HEIGHT / 2,
-            bottom_y: focus.y + CAMERA_HEIGHT / 2,
+            left_x: look_at.x - CAMERA_WIDTH / 2,
+            right_x: look_at.x + CAMERA_WIDTH / 2,
+            top_y: look_at.y - CAMERA_HEIGHT / 2,
+            bottom_y: look_at.y + CAMERA_HEIGHT / 2,
         }
     }
 
-    pub fn update(&mut self, focus: Point) {
-        self.left_x = focus.x - CAMERA_WIDTH / 2;
-        self.right_x = focus.x + CAMERA_WIDTH / 2;
-        self.top_y = focus.y - CAMERA_HEIGHT / 2;
-        self.bottom_y = focus.y + CAMERA_HEIGHT / 2;
+    pub fn update(&mut self, look_at: Point) {
+        self.left_x = look_at.x - CAMERA_WIDTH / 2;
+        self.right_x = look_at.x + CAMERA_WIDTH / 2;
+        self.top_y = look_at.y - CAMERA_HEIGHT / 2;
+        self.bottom_y = look_at.y + CAMERA_HEIGHT / 2;
     }
 }

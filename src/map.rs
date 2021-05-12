@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
-pub const MAP_WIDTH: i32 = 10;
-pub const MAP_HEIGHT: i32 = 10;
+pub const MAP_WIDTH: i32 = 100;
+pub const MAP_HEIGHT: i32 = 100;
 
 const NUM_TILES: usize = (MAP_WIDTH * MAP_HEIGHT) as usize;
 

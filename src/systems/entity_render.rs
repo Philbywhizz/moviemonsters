@@ -7,12 +7,17 @@ use crate::prelude::*;
 pub fn entity_render(ecs: &mut SubWorld, #[resource] camera: &Camera) {
     let mut draw_batch = DrawBatch::new();
     draw_batch.target(1); // draw on entity layer
-    let offset = Point::new(camera.left_x, camera.top_y);
+    let camera_offset = Point::new(camera.left_x, camera.top_y);
+    let viewport_offset = Point::new(1, 1);
 
     <(&Point, &Render)>::query()
         .iter(ecs)
         .for_each(|(pos, render)| {
-            draw_batch.set(*pos - offset, render.color, render.glyph);
+            draw_batch.set(
+                *pos - camera_offset + viewport_offset,
+                render.color,
+                render.glyph,
+            );
         });
 
     draw_batch.submit(5000).expect("Batch Error");
