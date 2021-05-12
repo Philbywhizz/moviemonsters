@@ -9,6 +9,7 @@ pub fn player_input(
     ecs: &mut SubWorld,
     #[resource] map: &Map,
     #[resource] key: &Option<VirtualKeyCode>,
+    #[resource] camera: &mut Camera,
 ) {
     if let Some(key) = key {
         let delta = match key {
@@ -25,6 +26,7 @@ pub fn player_input(
                 let destination = *pos + delta;
                 if map.can_enter_tile(destination) {
                     *pos = destination;
+                    camera.update(destination);
                 }
             })
         }

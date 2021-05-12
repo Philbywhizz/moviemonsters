@@ -13,6 +13,7 @@ pub enum TileType {
 // Structure that will hold a map
 pub struct Map {
     pub tiles: Vec<TileType>,
+    pub center: Point,
 }
 
 impl Map {
@@ -20,6 +21,7 @@ impl Map {
         Self {
             // just create an empty map
             tiles: vec![TileType::Ground; NUM_TILES],
+            center: Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2),
         }
     }
 
@@ -33,13 +35,13 @@ impl Map {
         self.in_bounds(point) && self.tiles[map_idx(point.x, point.y)] == TileType::Ground
     }
 
-    pub fn try_idx(&self, point: Point) -> Option<usize> {
-        if !self.in_bounds(point) {
-            None
-        } else {
-            Some(map_idx(point.x, point.y))
-        }
-    }
+    // pub fn try_idx(&self, point: Point) -> Option<usize> {
+    //     if !self.in_bounds(point) {
+    //         None
+    //     } else {
+    //         Some(map_idx(point.x, point.y))
+    //     }
+    // }
 }
 
 // Return the index value in the tile vector

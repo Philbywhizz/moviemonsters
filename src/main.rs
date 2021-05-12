@@ -1,8 +1,10 @@
+mod camera;
 mod components;
 mod map;
 mod spawner;
 mod systems;
 mod prelude {
+    pub use crate::camera::*;
     pub use crate::components::*;
     pub use crate::map::*;
     pub use crate::spawner::*;
@@ -29,8 +31,10 @@ impl State {
     fn new() -> Self {
         let mut ecs = World::default();
         let mut resources = Resources::default();
+        let map = Map::new();
         // Insert the map of the city
-        resources.insert(Map::new());
+        resources.insert(map);
+        resources.insert(Camera::new(Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2)));
 
         spawn_monster(&mut ecs, Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2));
         Self {
