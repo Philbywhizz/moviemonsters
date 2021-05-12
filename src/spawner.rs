@@ -6,7 +6,7 @@ pub fn spawn_monster(ecs: &mut World, pos: Point) {
         Monster,
         pos,
         Render {
-            color: ColorPair::new(WHITE, BLACK),
+            color: ColorPair::new(YELLOW, BLACK),
             glyph: to_cp437('@'),
         },
     ));
