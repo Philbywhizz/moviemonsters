@@ -1,14 +1,19 @@
 mod components;
+mod map;
 mod spawner;
 mod systems;
 mod prelude {
     pub use crate::components::*;
+    pub use crate::map::*;
     pub use crate::spawner::*;
     pub use crate::systems::*;
     pub use bracket_lib::prelude::*;
     pub use legion::systems::CommandBuffer;
     pub use legion::world::SubWorld;
     pub use legion::*;
+
+    pub const SCREEN_WIDTH: i32 = 80;
+    pub const SCREEN_HEIGHT: i32 = 50;
 }
 
 use prelude::*;
@@ -24,8 +29,10 @@ impl State {
     fn new() -> Self {
         let mut ecs = World::default();
         let mut resources = Resources::default();
+        // Insert the map of the city
+        resources.insert(Map::new());
 
-        spawn_monster(&mut ecs, Point::new(10, 10));
+        spawn_monster(&mut ecs, Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2));
         Self {
             ecs,
             resources,
@@ -36,18 +43,16 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
         ctx.cls();
-        ctx.print(0, 0, format!("FPS: {}", ctx.fps));
-        ctx.print_centered(1, "Movie Monsters");
 
         if let Some(key) = ctx.key {
             match key {
                 // ESCAPE key aborts
                 VirtualKeyCode::Escape => ctx.quitting = true,
-                // Everything else pass as a resource
-                _ => self.resources.insert(key),
+                _ => {}
             }
         }
 
+        self.resources.insert(ctx.key);
         // Execute the Scheduler
         self.systems.execute(&mut self.ecs, &mut self.resources);
 
@@ -60,7 +65,7 @@ impl GameState for State {
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
         .with_title("Movie Monsters")
-        .with_dimensions(80, 50)
+        .with_dimensions(SCREEN_WIDTH, SCREEN_HEIGHT)
         .with_fps_cap(30.0)
         .build()?;
 
