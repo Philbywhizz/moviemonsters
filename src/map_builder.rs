@@ -1,5 +1,5 @@
 use crate::prelude::*;
-const NUM_BUILDINGS: usize = 20;
+const NUM_BUILDINGS: usize = 80;
 
 pub struct MapBuilder {
     pub map: Map,
