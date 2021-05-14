@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 // The camera shows only part of the world map, defined by its size and look_at point
 
-pub const CAMERA_WIDTH: i32 = 57;
+pub const CAMERA_WIDTH: i32 = 58;
 pub const CAMERA_HEIGHT: i32 = 45;
 
 pub struct Camera {
@@ -27,5 +27,12 @@ impl Camera {
         self.right_x = look_at.x + CAMERA_WIDTH / 2;
         self.top_y = look_at.y - CAMERA_HEIGHT / 2;
         self.bottom_y = look_at.y + CAMERA_HEIGHT / 2;
+    }
+
+    pub fn in_view(&mut self, target: &Point) -> bool {
+        target.x >= self.left_x
+            && target.x <= self.right_x
+            && target.y >= self.top_y
+            && target.y <= self.bottom_y
     }
 }

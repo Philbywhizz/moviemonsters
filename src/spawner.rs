@@ -11,3 +11,14 @@ pub fn spawn_monster(ecs: &mut World, pos: Point) {
         },
     ));
 }
+
+pub fn spawn_actor(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Actor,
+        pos,
+        Render {
+            color: ColorPair::new(CYAN, BLACK),
+            glyph: 1,
+        },
+    ));
+}

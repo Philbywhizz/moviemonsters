@@ -12,3 +12,7 @@ pub struct Render {
 // A Monster Tag
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Monster;
+
+// An Actor Tag
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Actor;

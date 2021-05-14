@@ -43,6 +43,14 @@ impl State {
         // spawn the monster in the middle of the map
         spawn_monster(&mut ecs, Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2));
 
+        // spawn some random actors
+        for _ in 1..100 {
+            spawn_actor(
+                &mut ecs,
+                Point::new(rng.range(0, MAP_WIDTH), rng.range(0, MAP_HEIGHT)),
+            );
+        }
+
         Self {
             ecs,
             resources,

@@ -9,10 +9,10 @@ pub fn hud() {
     draw_batch.target(2);
 
     // Main Map is the left most 60 columns leaving 58 usable columns
-    draw_batch.draw_double_box(
-        Rect::with_size(0, 0, 59, 46),
-        ColorPair::new(DARKBLUE, BLACK),
-    );
+    // draw_batch.draw_double_box(
+    //     Rect::with_size(0, 0, 59, 46),
+    //     ColorPair::new(DARKBLUE, BLACK),
+    // );
 
     // Info Panel is the right most 20 columns leaving 18 usable columns
     draw_batch.draw_double_box(
@@ -25,8 +25,6 @@ pub fn hud() {
         Rect::with_size(0, 47, 79, 2),
         ColorPair::new(DARKBLUE, BLACK),
     );
-
-    draw_batch.print_color_centered(0, "Movie Monsters", ColorPair::new(WHITE, BLACK));
 
     draw_batch.submit(10000).expect("Batch Error");
 }
