@@ -36,20 +36,19 @@ impl State {
         let mut rng = RandomNumberGenerator::new();
         let map_builder = MapBuilder::new(&mut rng);
 
-        // Insert the map of the city
-        resources.insert(map_builder.map);
-        resources.insert(Camera::new(Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2)));
-
-        // spawn the monster in the middle of the map
-        spawn_monster(&mut ecs, Point::new(MAP_WIDTH / 2, MAP_HEIGHT / 2));
-
-        // spawn some random actors
-        for _ in 1..100 {
-            spawn_actor(
-                &mut ecs,
-                Point::new(rng.range(0, MAP_WIDTH), rng.range(0, MAP_HEIGHT)),
-            );
+        // spawn some random actors for testing
+        for _ in 1..25 {
+            spawn_actor(&mut ecs, map_builder.map.get_random_empty_tile_location());
         }
+
+        let monster_location = map_builder.map.get_random_empty_tile_location();
+        spawn_monster(&mut ecs, monster_location);
+
+        // Insert the map of the city as a resource
+        resources.insert(map_builder.map);
+
+        // Add a Camera as a resource, pointing at the monster
+        resources.insert(Camera::new(monster_location));
 
         Self {
             ecs,
@@ -58,6 +57,7 @@ impl State {
         }
     }
 }
+
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
         // clear all the consoles

@@ -10,7 +10,7 @@ pub fn hud() {
 
     // Main Map is the left most 60 columns leaving 58 usable columns
     draw_batch.draw_hollow_box(
-        Rect::with_size(0, 0, 59, 46),
+        Rect::with_size(0, 0, 58, 46),
         ColorPair::new(DARKBLUE, BLACK),
     );
 

@@ -1,5 +1,5 @@
 use crate::prelude::*;
-const NUM_BUILDINGS: usize = 80;
+const NUM_BUILDINGS: usize = 10;
 
 pub struct MapBuilder {
     pub map: Map,
@@ -19,6 +19,7 @@ impl MapBuilder {
         mb
     }
 
+    /// Fill up the entire map with a specific tile
     fn fill(&mut self, tile: TileType) {
         self.map.tiles.iter_mut().for_each(|t| *t = tile);
     }

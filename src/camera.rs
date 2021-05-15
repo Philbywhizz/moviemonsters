@@ -2,8 +2,8 @@ use crate::prelude::*;
 
 // The camera shows only part of the world map, defined by its size and look_at point
 
-pub const CAMERA_WIDTH: i32 = 58;
-pub const CAMERA_HEIGHT: i32 = 45;
+pub const CAMERA_WIDTH: i32 = 57; // must be odd number
+pub const CAMERA_HEIGHT: i32 = 45; // must be odd number
 
 pub struct Camera {
     pub left_x: i32,
@@ -31,8 +31,8 @@ impl Camera {
 
     pub fn in_view(&mut self, target: &Point) -> bool {
         target.x >= self.left_x
-            && target.x <= self.right_x
+            && target.x < self.right_x
             && target.y >= self.top_y
-            && target.y <= self.bottom_y
+            && target.y < self.bottom_y
     }
 }

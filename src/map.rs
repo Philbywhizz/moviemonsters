@@ -1,7 +1,9 @@
 use crate::prelude::*;
 
-pub const MAP_WIDTH: i32 = 100;
-pub const MAP_HEIGHT: i32 = 100;
+pub const BLOCK_SIZE: i32 = 9;
+
+pub const MAP_WIDTH: i32 = 9 * BLOCK_SIZE; //81
+pub const MAP_HEIGHT: i32 = 9 * BLOCK_SIZE; //81
 
 const NUM_TILES: usize = (MAP_WIDTH * MAP_HEIGHT) as usize;
 
@@ -36,13 +38,17 @@ impl Map {
         self.in_bounds(point) && self.tiles[map_idx(point.x, point.y)] == TileType::Ground
     }
 
-    // pub fn try_idx(&self, point: Point) -> Option<usize> {
-    //     if !self.in_bounds(point) {
-    //         None
-    //     } else {
-    //         Some(map_idx(point.x, point.y))
-    //     }
-    // }
+    /// Will randomly pick a tile and only return it if it is currently empty
+    pub fn get_random_empty_tile_location(&self) -> Point {
+        let mut rng = RandomNumberGenerator::new();
+        // TODO: There is a risk of this being blocking code, need to rethink this
+        loop {
+            let test_location = Point::new(rng.range(0, MAP_WIDTH), rng.range(0, MAP_HEIGHT));
+            if self.can_enter_tile(test_location) {
+                return test_location;
+            }
+        }
+    }
 }
 
 // Return the index value in the tile vector
