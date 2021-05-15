@@ -76,7 +76,9 @@ impl GameState for State {
             }
         }
 
+        // add the current key press as a resource
         self.resources.insert(ctx.key);
+
         // Execute the Scheduler
         self.systems.execute(&mut self.ecs, &mut self.resources);
 
@@ -89,7 +91,7 @@ impl GameState for State {
 fn main() -> BError {
     let context = BTermBuilder::new()
         .with_title("Movie Monsters")
-        .with_fps_cap(30.0)
+        //.with_fps_cap(30.0)
         .with_dimensions(SCREEN_WIDTH, SCREEN_HEIGHT)
         .with_resource_path("resources/")
         .with_font("md-curses-16x16.png", 16, 16)

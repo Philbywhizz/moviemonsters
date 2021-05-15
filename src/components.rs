@@ -9,6 +9,11 @@ pub struct Render {
     pub glyph: FontCharType,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct RandomMovement {
+    pub speed: i32,
+}
+
 // A Monster Tag
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Monster;

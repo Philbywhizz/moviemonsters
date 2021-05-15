@@ -15,7 +15,7 @@ pub fn map_render(#[resource] map: &Map, #[resource] camera: &Camera) {
             if map.in_bounds(pt) {
                 let idx = map_idx(x, y);
                 let glyph = match map.tiles[idx] {
-                    TileType::Ground => 250, //cp437 250
+                    TileType::Ground => to_cp437('·'), // 250
                     TileType::Building => to_cp437('#'),
                 };
                 draw_batch.set(
