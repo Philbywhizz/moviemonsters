@@ -20,6 +20,9 @@ pub fn spawn_actor(ecs: &mut World, pos: Point) {
             color: ColorPair::new(CYAN, BLACK),
             glyph: 1,
         },
-        RandomMovement { speed: 300 },
+        RandomMovement {
+            current_delta: 0.0,
+            trigger_delta: 750.0,
+        },
     ));
 }

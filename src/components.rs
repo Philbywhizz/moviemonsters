@@ -11,7 +11,8 @@ pub struct Render {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct RandomMovement {
-    pub speed: i32,
+    pub current_delta: f32,
+    pub trigger_delta: f32,
 }
 
 // A Monster Tag

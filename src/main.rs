@@ -79,6 +79,8 @@ impl GameState for State {
         // add the current key press as a resource
         self.resources.insert(ctx.key);
 
+        self.resources.insert(ctx.frame_time_ms);
+
         // Execute the Scheduler
         self.systems.execute(&mut self.ecs, &mut self.resources);
 
