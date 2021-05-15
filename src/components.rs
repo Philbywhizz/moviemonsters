@@ -15,6 +15,12 @@ pub struct RandomMovement {
     pub trigger_delta: f32,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct WantsToMove {
+    pub entity: Entity,
+    pub destination: Point,
+}
+
 // A Monster Tag
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Monster;

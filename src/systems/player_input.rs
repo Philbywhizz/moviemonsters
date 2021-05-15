@@ -3,14 +3,15 @@ use crate::prelude::*;
 // Get input from the player and pass it to the monster entity
 
 #[system]
-#[write_component(Point)]
+#[read_component(Point)]
 #[read_component(Monster)]
 pub fn player_input(
     ecs: &mut SubWorld,
-    #[resource] map: &Map,
+    commands: &mut CommandBuffer,
     #[resource] key: &Option<VirtualKeyCode>,
-    #[resource] camera: &mut Camera,
 ) {
+    let mut monsters = <(Entity, &Point)>::query().filter(component::<Monster>());
+
     if let Some(key) = key {
         let delta = match key {
             VirtualKeyCode::Left => Point::new(-1, 0),
@@ -20,15 +21,15 @@ pub fn player_input(
             _ => Point::zero(),
         };
 
-        if delta.x != 0 || delta.y != 0 {
-            let mut monsters = <&mut Point>::query().filter(component::<Monster>());
-            monsters.iter_mut(ecs).for_each(|pos| {
-                let destination = *pos + delta;
-                if map.can_enter_tile(destination) {
-                    *pos = destination;
-                    camera.update(destination);
-                }
-            })
-        }
+        monsters.iter(ecs).for_each(|(entity, pos)| {
+            let destination = *pos + delta;
+            commands.push((
+                (),
+                WantsToMove {
+                    entity: *entity,
+                    destination,
+                },
+            ));
+        });
     }
 }

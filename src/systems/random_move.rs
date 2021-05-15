@@ -1,12 +1,12 @@
 use crate::prelude::*;
 
 #[system]
-#[write_component(Point)]
+#[read_component(Point)]
 #[write_component(RandomMovement)]
-pub fn random_move(ecs: &mut SubWorld, #[resource] map: &Map, #[resource] dt: &f32) {
-    let mut movers = <(&mut Point, &mut RandomMovement)>::query();
+pub fn random_move(ecs: &mut SubWorld, commands: &mut CommandBuffer, #[resource] dt: &f32) {
+    let mut movers = <(Entity, &Point, &mut RandomMovement)>::query();
 
-    movers.iter_mut(ecs).for_each(|(pos, rnd_move)| {
+    movers.iter_mut(ecs).for_each(|(entity, pos, rnd_move)| {
         let mut rng = RandomNumberGenerator::new();
         let destination = match rng.range(0, 4) {
             0 => Point::new(-1, 0), // up
@@ -15,10 +15,16 @@ pub fn random_move(ecs: &mut SubWorld, #[resource] map: &Map, #[resource] dt: &f
             _ => Point::new(0, 1),  // right
         } + *pos;
 
+        // only move when we have reached the trigger delta
         rnd_move.current_delta += dt;
-
-        if rnd_move.current_delta >= rnd_move.trigger_delta && map.can_enter_tile(destination) {
-            *pos = destination;
+        if rnd_move.current_delta >= rnd_move.trigger_delta {
+            commands.push((
+                (),
+                WantsToMove {
+                    entity: *entity,
+                    destination,
+                },
+            ));
             rnd_move.current_delta = 0.0;
         }
     });
