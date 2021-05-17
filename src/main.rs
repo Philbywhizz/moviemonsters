@@ -4,6 +4,7 @@ mod map;
 mod map_builder;
 mod spawner;
 mod systems;
+mod turn_state;
 mod prelude {
     pub use crate::camera::*;
     pub use crate::components::*;
@@ -11,6 +12,7 @@ mod prelude {
     pub use crate::map_builder::*;
     pub use crate::spawner::*;
     pub use crate::systems::*;
+    pub use crate::turn_state::*;
     pub use bracket_lib::prelude::*;
     pub use legion::systems::CommandBuffer;
     pub use legion::world::SubWorld;
@@ -25,7 +27,9 @@ use prelude::*;
 struct State {
     ecs: World,
     resources: Resources,
-    systems: Schedule,
+    input_systems: Schedule,
+    monster_systems: Schedule,
+    actor_systems: Schedule,
 }
 
 impl State {
@@ -50,10 +54,14 @@ impl State {
         // Add a Camera as a resource, pointing at the monster
         resources.insert(Camera::new(monster_location));
 
+        resources.insert(TurnState::AwaitingInput);
+
         Self {
             ecs,
             resources,
-            systems: build_scheduler(),
+            input_systems: build_input_scheduler(),
+            monster_systems: build_monster_scheduler(),
+            actor_systems: build_actor_scheduler(),
         }
     }
 }
@@ -79,10 +87,19 @@ impl GameState for State {
         // add the current key press as a resource
         self.resources.insert(ctx.key);
 
-        self.resources.insert(ctx.frame_time_ms);
-
-        // Execute the Scheduler
-        self.systems.execute(&mut self.ecs, &mut self.resources);
+        // Execute the Scheduler based on turn state
+        let current_state = self.resources.get::<TurnState>().unwrap().clone();
+        match current_state {
+            TurnState::AwaitingInput => self
+                .input_systems
+                .execute(&mut self.ecs, &mut self.resources),
+            TurnState::MonsterTurn => self
+                .monster_systems
+                .execute(&mut self.ecs, &mut self.resources),
+            TurnState::ActorTurn => self
+                .actor_systems
+                .execute(&mut self.ecs, &mut self.resources),
+        }
 
         // Render a frame on all the consoles
         render_draw_buffer(ctx).expect("Render Error");

@@ -11,8 +11,8 @@ pub struct Render {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct RandomMovement {
-    pub current_delta: f32,
-    pub trigger_delta: f32,
+    pub current_step: i32,
+    pub max_step: i32,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
