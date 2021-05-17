@@ -9,6 +9,7 @@ pub fn player_input(
     ecs: &mut SubWorld,
     commands: &mut CommandBuffer,
     #[resource] key: &Option<VirtualKeyCode>,
+    #[resource] turn_state: &mut TurnState,
 ) {
     let mut monsters = <(Entity, &Point)>::query().filter(component::<Monster>());
 
@@ -31,5 +32,7 @@ pub fn player_input(
                 },
             ));
         });
+
+        *turn_state = TurnState::MonsterTurn;
     }
 }
