@@ -21,8 +21,8 @@ pub fn spawn_actor(ecs: &mut World, pos: Point) {
             glyph: 1,
         },
         RandomMovement {
-            current_delta: 0.0,
-            trigger_delta: 750.0,
+            current_step: 0,
+            max_step: 2,
         },
     ));
 }

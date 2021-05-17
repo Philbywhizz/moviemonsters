@@ -87,8 +87,6 @@ impl GameState for State {
         // add the current key press as a resource
         self.resources.insert(ctx.key);
 
-        self.resources.insert(ctx.frame_time_ms);
-
         // Execute the Scheduler based on turn state
         let current_state = self.resources.get::<TurnState>().unwrap().clone();
         match current_state {
